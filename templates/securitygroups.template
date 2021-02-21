@@ -145,6 +145,12 @@
                         "FromPort": 3306,
                         "ToPort": 3306,
                         "DestinationSecurityGroupId": "AuroraRDSSecurityGroupID"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 2049,
+                        "ToPort": 2049,
+                        "DestinationSecurityGroupId": "EFSSecurityGroupID"
                     }
                 ]
             }
