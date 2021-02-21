@@ -23,7 +23,7 @@
                         "PublicSubnet1ID",
                         "PublicSubnet2ID",
                         "VPCID",
-                        "EFSSecurityGroup"
+                        "EFSSecurityGroupID"
                     ]
                 },
                 {
@@ -108,8 +108,8 @@
             "Description": "A list of subnet identifiers of Amazon VPCs where the WebServer Autoscaling would be launched",
             "Type": "List<AWS::EC2::Subnet::Id>"
         },
-        "EFSSecurityGroup": {
-            "Description": "EFS Security Group",
+        "EFSSecurityGroupID": {
+            "Description": "EFS Security Group ID",
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
         "WebServerInstanceType": {
