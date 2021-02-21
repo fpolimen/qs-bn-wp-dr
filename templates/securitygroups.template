@@ -27,7 +27,7 @@
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
         "EFSSecurityGroup": {
-            "Description": "Security Group (not ID) of EFS (e.g., sg-1d2c3b4a)",
+            "Description": "Security Group (not ID) of EFS (e.g. ?????)",
             "Type": "AWS::EC2::SecurityGroup"
         },
         "ElastiCacheEnable":{
@@ -145,25 +145,6 @@
                         "FromPort": 3306,
                         "ToPort": 3306,
                         "DestinationSecurityGroupId": "AuroraRDSSecurityGroupID"
-                    }
-                ]
-            }
-        },
-        "EFSSecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
-            "Properties": {
-                "GroupDescription": "EFS Security Group",
-                "VpcId": {
-                    "Ref": "VPC"
-                },
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": 2049,
-                        "ToPort": 2049,
-                        "CidrIp": {
-                            "Ref": "VPCCIDR"
-                        }
                     }
                 ]
             }
