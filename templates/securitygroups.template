@@ -18,6 +18,10 @@
             "Description": "Allowed CIDR block for external web access to the Application Load Balancer",
             "Type": "String"
         },
+        "AuroraRDSSecurityGroupID": {
+            "Description": "ID of the Aurora Security Group (e.g., sg-1d2c3b4a)",
+            "Type": "AWS::EC2::SecurityGroup::Id"
+        },
         "BastionSecurityGroupID": {
             "Description": "ID of the Bastion Security Group (e.g., sg-1d2c3b4a)",
             "Type": "AWS::EC2::SecurityGroup::Id"
