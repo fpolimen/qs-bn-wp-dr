@@ -1,5 +1,5 @@
 # quickstart-bitnami-wordpress
-## WordPress High Availability by Bitnami on the AWS Cloud
+## WordPress High Availability by Bitnami on the AWS Cloud (for Disaster recovery site)
 
 This Quick Start deploys WordPress High Availability by Bitnami, which includes WordPress and Amazon Aurora, in a highly available environment on AWS in about 40 minutes.
 
