@@ -24,13 +24,8 @@
                         "default": "Aurora Database Configuration"
                     },
                     "Parameters": [
-                        "DBAutoMinorVersionUpgrade",
-                        "DBBackupRetentionPeriod",
-                        "DBPreferredBackupWindow",
-                        "DBStorageEncrypted",
-                        "DBInstanceClass",
-                        "DBMasterUserPassword",
-                        "DBMultiAZ"
+                        "DBEndpointAddress",
+                        "DBMasterUserPassword"
                     ]
                 },
                 {
@@ -88,26 +83,11 @@
                 "BastionSecurityGroupID": {
                     "default": "Bastion Security Group ID"
                 },
-                "DBAutoMinorVersionUpgrade": {
-                    "default": "Enable Auto Minor Version Upgrade"
-                },
-                "DBBackupRetentionPeriod": {
-                    "default": "Backup Retention Period"
-                },
-                "DBPreferredBackupWindow": {
-                    "default": "Preferred Backup Window"
-                },
-                "DBStorageEncrypted": {
-                    "default": "Enable Storage Encryption"
-                },
-                "DBInstanceClass": {
-                    "default": "Database Instance Size"
+                "DBEndpointAddress": {
+                    "default": "Existing Aurora Endpoint Address"
                 },
                 "DBMasterUserPassword": {
-                    "default": "Database Admin Password"
-                },
-                "DBMultiAZ": {
-                    "default": "Multi-AZ Database"
+                    "default": "Existing Database Admin Password"
                 },
                 "WordpressAdminPassword": {
                     "default": "Admin Password"
@@ -198,78 +178,8 @@
             "Description": "The ID of the Bastion security group in your existing VPC (e.g., sg-1a2b3c4d).",
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
-        "DBAutoMinorVersionUpgrade": {
-            "AllowedValues": [
-                "true",
-                "false"
-            ],
-            "Default": "true",
-            "Description": "Select true/false to setup Auto Minor Version Upgrades. When enabled, it allows the database engine to be automatically upgraded when a new minor version is available.",
-            "Type": "String"
-        },
-        "DBBackupRetentionPeriod": {
-            "ConstraintDescription": "Database backup retention period must be between 1 and 35 days",
-            "Default": "7",
-            "Description": "The number of days for which automatic DB snapshots are retained, 7 by default. You can set this parameter to a value between 1 and 35 days. Set this parameter to 0 to disable automated backups.",
-            "MaxValue": "35",
-            "MinValue": "1",
-            "Type": "Number"
-        },
-        "DBPreferredBackupWindow": {
-            "AllowedPattern": "^(|([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9])$",
-            "ConstraintDescription": "Preferred backup window must be left blank or in the form of HH:MM-HH:MM",
-            "Default": "",
-            "Description": "(Optional) Preferred Backup Window, specified in the format HH:MM-HH:MM using UTC. Automated backups will occur within this time frame. When it's not set, the backup will take place during the default Backup Windows of the AWS region.",
-            "Type": "String"
-        },
-        "DBStorageEncrypted": {
-            "AllowedValues": [
-                "true",
-                "false"
-            ],
-            "Default": "false",
-            "Description": "Select true/false to enable storage encryption in the database instances.",
-            "Type": "String"
-        },
-        "DBInstanceClass": {
-            "AllowedValues": [
-                "db.t2.micro",
-                "db.t2.small",
-                "db.t2.medium",
-                "db.t2.large",
-                "db.t2.xlarge",
-                "db.t2.2xlarge",
-                "db.t3.micro",
-                "db.t3.small",
-                "db.t3.medium",
-                "db.t3.large",
-                "db.t3.xlarge",
-                "db.t3.2xlarge",
-                "db.m3.medium",
-                "db.m3.large",
-                "db.m3.xlarge",
-                "db.m3.2xlarge",
-                "db.m4.large",
-                "db.m4.xlarge",
-                "db.m4.2xlarge",
-                "db.m4.4xlarge",
-                "db.m4.10xlarge",
-                "db.m4.16xlarge",
-                "db.r3.large",
-                "db.r3.xlarge",
-                "db.r3.2xlarge",
-                "db.r3.4xlarge",
-                "db.r3.8xlarge",
-                "db.r4.large",
-                "db.r4.xlarge",
-                "db.r4.2xlarge",
-                "db.r4.4xlarge",
-                "db.r4.8xlarge",
-                "db.r4.16xlarge"
-            ],
-            "ConstraintDescription": "Must select a valid database instance type.",
-            "Default": "db.t2.small",
-            "Description": "Select instance size (compute and memory capacity) for Aurora DB instances.",
+        "DBEndpointAddress":{
+            "Description": "The Aurora Address Endpoint to be used by WP."
             "Type": "String"
         },
         "DBMasterUserPassword": {
@@ -279,15 +189,6 @@
             "MaxLength": "41",
             "MinLength": "8",
             "NoEcho": "True",
-            "Type": "String"
-        },
-        "DBMultiAZ": {
-            "AllowedValues": [
-                "true",
-                "false"
-            ],
-            "Default": "true",
-            "Description": "Select true/false to configure database as a Multi-AZ deployment or not. Multi-AZ deployments create a database node in each of the Availability Zones providing HA.",
             "Type": "String"
         },
         "WordpressAdminPassword": {
@@ -776,59 +677,6 @@
                 }
             }
         },
-        "RDSAuroraStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": ["https://${BucketName}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/rdsaurora.template",
-                      {
-                        "BucketName":{"Fn::If":["UsingDefaultBucket", {"Fn::Sub":"aws-quickstart-${AWS::Region}"}, {"Ref":"QSS3BucketName"}]},
-                        "S3Region":{"Fn::If":["UsingDefaultBucket", {"Ref":"AWS::Region"}, {"Ref":"QSS3BucketRegion"}]}}]
-                },
-                "Parameters": {
-                    "Subnets": {
-                        "Fn::Join": [
-                            ",",
-                            [
-                                {
-                                    "Ref": "PrivateSubnet1ID"
-                                },
-                                {
-                                    "Ref": "PrivateSubnet2ID"
-                                }
-                            ]
-                        ]
-                    },
-                    "AuroraRDSSecurityGroup": {
-                        "Fn::GetAtt": [
-                            "SecurityGroupsStack",
-                            "Outputs.AuroraRDSSecurityGroup"
-                        ]
-                    },
-                    "DBAutoMinorVersionUpgrade": {
-                        "Ref": "DBAutoMinorVersionUpgrade"
-                    },
-                    "DBBackupRetentionPeriod": {
-                        "Ref": "DBBackupRetentionPeriod"
-                    },
-                    "DBPreferredBackupWindow": {
-                        "Ref": "DBPreferredBackupWindow"
-                    },
-                    "DBStorageEncrypted": {
-                        "Ref": "DBStorageEncrypted"
-                    },
-                    "DBInstanceClass": {
-                        "Ref": "DBInstanceClass"
-                    },
-                    "DBMasterUserPassword": {
-                        "Ref": "DBMasterUserPassword"
-                    },
-                    "DBMultiAZ": {
-                        "Ref": "DBMultiAZ"
-                    }
-                }
-            }
-        },
         "ElastiCacheStack":{
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "ElastiCacheEnableCondition",
@@ -937,10 +785,7 @@
                         ]
                     },
                     "DBEndpointAddress": {
-                        "Fn::GetAtt": [
-                            "RDSAuroraStack",
-                            "Outputs.AuroraEndPointAddress"
-                        ]
+                        "Ref": "DBEndpointAddress"
                     },
                     "DBMasterUserPassword": {
                         "Ref": "DBMasterUserPassword"
