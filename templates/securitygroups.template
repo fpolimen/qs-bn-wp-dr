@@ -198,26 +198,6 @@
                     ]
                 }
             }
-        },
-        "SecurityGroupRuleAppEFS": {
-            "Type": "AWS::EC2::SecurityGroupEgress",
-            "Properties": {
-                "IpProtocol": "tcp",
-                "FromPort": 2049,
-                "ToPort": 2049,
-                "DestinationSecurityGroupId": {
-                    "Fn::GetAtt": [
-                        "EFSSecurityGroup",
-                        "GroupId"
-                    ]
-                },
-                "GroupId": {
-                    "Fn::GetAtt": [
-                        "WebServerSecurityGroup",
-                        "GroupId"
-                    ]
-                }
-            }
         }
     },
     "Outputs": {
