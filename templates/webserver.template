@@ -23,7 +23,8 @@
                         "PublicSubnet1ID",
                         "PublicSubnet2ID",
                         "VPCID",
-                        "EFSSecurityGroupID"
+                        "EFSSecurityGroupID",
+                        "WordpressEFSID"
                     ]
                 },
                 {
@@ -111,6 +112,10 @@
         "EFSSecurityGroupID": {
             "Description": "EFS Security Group ID",
             "Type": "AWS::EC2::SecurityGroup::Id"
+        },
+        "WordpressEFSID": {
+            "Description": "Wordpress EFS SID",
+            "Type": "String"
         },
         "WebServerInstanceType": {
             "AllowedValues": [
@@ -601,61 +606,6 @@
         }
     },
     "Resources": {
-        "WordpressEFS": {
-            "Type": "AWS::EFS::FileSystem",
-            "Properties": {
-                "PerformanceMode": "generalPurpose",
-                "Encrypted": true,
-                "FileSystemTags": [
-                    {
-                        "Key": "Name",
-                        "Value": "WordPress EFS Shared Filesystem"
-                    }
-                ]
-            }
-        },
-        "WordpressEFSMountTarget1": {
-            "Type": "AWS::EFS::MountTarget",
-            "Properties": {
-                "FileSystemId": {
-                    "Ref": "WordpressEFS"
-                },
-                "SubnetId": {
-                    "Fn::Select": [
-                        "0",
-                        {
-                            "Ref": "WebServerSubnets"
-                        }
-                    ]
-                },
-                "SecurityGroups": [
-                    {
-                        "Ref": "EFSSecurityGroup"
-                    }
-                ]
-            }
-        },
-        "WordpressEFSMountTarget2": {
-            "Type": "AWS::EFS::MountTarget",
-            "Properties": {
-                "FileSystemId": {
-                    "Ref": "WordpressEFS"
-                },
-                "SubnetId": {
-                    "Fn::Select": [
-                        "1",
-                        {
-                            "Ref": "WebServerSubnets"
-                        }
-                    ]
-                },
-                "SecurityGroups": [
-                    {
-                        "Ref": "EFSSecurityGroup"
-                    }
-                ]
-            }
-        },
         "WebServerInstanceRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -1013,7 +963,7 @@
                                 },
                                 "\n# PROVISIONER_EFS_URI=",
                                 {
-                                    "Fn::Sub": "${WordpressEFS}.efs.${AWS::Region}.amazonaws.com:/"
+                                    "Fn::Sub": "${WordpressEFSID}.efs.${AWS::Region}.amazonaws.com:/"
                                 },
                                 "\n# PROVISIONER_PUBLIC_URL=",
                                 {
