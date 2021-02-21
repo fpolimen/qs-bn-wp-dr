@@ -178,7 +178,7 @@
             "Description": "Email address to notify any scaling operation. When an Autoscaling event occurs, an email is sent to this mail address.",
             "Type": "String"
         },
-        "AuroraSecurityGroupID": {
+        "AuroraRDSSecurityGroupID": {
             "Description": "The ID of the Aurora RDS security group in your existing VPC (e.g., sg-1a2b3c4d).",
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
