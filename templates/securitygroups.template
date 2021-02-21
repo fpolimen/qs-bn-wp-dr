@@ -213,12 +213,6 @@
                 "Ref": "WebServerSecurityGroup"
             }
         },
-        "EFSSecurityGroup": {
-            "Description": "EFS Security Group",
-            "Value": {
-                "Ref": "EFSSecurityGroup"
-            }
-        },
         "ElastiCacheSecurityGroup": {
             "Description": "ElastiCache Security Group",
             "Value": {
