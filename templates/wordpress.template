@@ -17,7 +17,8 @@
                         "PublicSubnet2ID",
                         "ALBAccessCIDR",
                         "AuroraRDSSecurityGroupID",
-                        "BastionSecurityGroupID"
+                        "BastionSecurityGroupID",
+                        "EFSSecurityGroupID"
                     ]
                 },
                 {
@@ -86,6 +87,9 @@
                 },
                 "BastionSecurityGroupID": {
                     "default": "Bastion Security Group ID"
+                },
+                 "EFSSecurityGroupID": {
+                    "default": "EFS Security Group ID"
                 },
                 "DBEndpointAddress": {
                     "default": "Existing Aurora Endpoint Address"
@@ -184,6 +188,10 @@
         },
         "BastionSecurityGroupID": {
             "Description": "The ID of the Bastion security group in your existing VPC (e.g., sg-1a2b3c4d).",
+            "Type": "AWS::EC2::SecurityGroup::Id"
+        },
+        "EFSSecurityGroupID": {
+            "Description": "The ID of the EFS security group in your existing VPC (e.g., sg-1a2b3c4d).",
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
         "DBEndpointAddress":{
@@ -684,6 +692,9 @@
                     },
                     "BastionSecurityGroupID": {
                         "Ref": "BastionSecurityGroupID"
+                    },
+                    "EFSSecurityGroupID": {
+                        "Ref": "EFSSecurityGroupID"
                     }
                 }
             }
@@ -762,11 +773,8 @@
                             ]
                         ]
                     },
-                    "EFSSecurityGroup": {
-                        "Fn::GetAtt": [
-                            "SecurityGroupsStack",
-                            "Outputs.EFSSecurityGroup"
-                        ]
+                    "EFSSecurityGroupID": {
+                        "Ref": "EFSSecurityGroupID"
                     },
                     "WebServerInstanceType": {
                         "Ref": "WebServerInstanceType"
