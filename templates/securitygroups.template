@@ -27,9 +27,9 @@
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
         "EFSSecurityGroup": {
-            "Description": "Security Group (not ID) of EFS (e.g., sg-1d2c3b4a)"
+            "Description": "Security Group (not ID) of EFS (e.g., sg-1d2c3b4a)",
             "Type": "AWS::EC2::SecurityGroup"
-        }
+        },
         "ElastiCacheEnable":{
             "Description": "Enable ElastiCache",
             "AllowedValues": [
