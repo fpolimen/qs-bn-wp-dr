@@ -135,6 +135,12 @@
                         "FromPort": 443,
                         "ToPort": 443,
                         "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 3306,
+                        "ToPort": 3306,
+                        "DestinationSecurityGroupId": "AuroraRDSSecurityGroupID"
                     }
                 ]
             }
@@ -191,26 +197,6 @@
                 "DestinationSecurityGroupId": {
                     "Fn::GetAtt": [
                         "ElastiCacheSecurityGroup",
-                        "GroupId"
-                    ]
-                },
-                "GroupId": {
-                    "Fn::GetAtt": [
-                        "WebServerSecurityGroup",
-                        "GroupId"
-                    ]
-                }
-            }
-        },
-        "SecurityGroupRuleAppDB": {
-            "Type": "AWS::EC2::SecurityGroupEgress",
-            "Properties": {
-                "IpProtocol": "tcp",
-                "FromPort": 3306,
-                "ToPort": 3306,
-                "DestinationSecurityGroupId": {
-                    "Fn::GetAtt": [
-                        "AuroraRDSSecurityGroup",
                         "GroupId"
                     ]
                 },
