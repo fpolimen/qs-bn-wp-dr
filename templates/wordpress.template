@@ -18,7 +18,8 @@
                         "ALBAccessCIDR",
                         "AuroraRDSSecurityGroupID",
                         "BastionSecurityGroupID",
-                        "EFSSecurityGroupID"
+                        "EFSSecurityGroupID",
+                        "WordpressEFSID"
                     ]
                 },
                 {
@@ -90,6 +91,9 @@
                 },
                  "EFSSecurityGroupID": {
                     "default": "EFS Security Group ID"
+                },
+                "WordpressEFSID": {
+                    "default": "Endpoint of EFS"
                 },
                 "DBEndpointAddress": {
                     "default": "Existing Aurora Endpoint Address"
@@ -193,6 +197,10 @@
         "EFSSecurityGroupID": {
             "Description": "The ID of the EFS security group in your existing VPC (e.g., sg-1a2b3c4d).",
             "Type": "AWS::EC2::SecurityGroup::Id"
+        },
+        "WordpressEFSID":{
+            "Description": "The Aurora Address Endpoint to be used by WP."
+            "Type": "String"
         },
         "DBEndpointAddress":{
             "Description": "The Aurora Address Endpoint to be used by WP."
@@ -775,6 +783,9 @@
                     },
                     "EFSSecurityGroupID": {
                         "Ref": "EFSSecurityGroupID"
+                    },
+                    "WordpressEFSID": {
+                        "Ref": "WordpressEFSID"
                     },
                     "WebServerInstanceType": {
                         "Ref": "WebServerInstanceType"
