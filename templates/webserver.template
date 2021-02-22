@@ -869,7 +869,6 @@
         "WebServerLC": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "DependsOn": [
-                "WordpressEFSID",
                 "ApplicationLoadBalancer"
             ],
             "Metadata": {
