@@ -199,11 +199,11 @@
             "Type": "AWS::EC2::SecurityGroup::Id"
         },
         "WordpressEFSID":{
-            "Description": "The EFS Endpoint to be used by WP."
+            "Description": "The EFS Endpoint to be used by WP.",
             "Type": "String"
         },
         "DBEndpointAddress":{
-            "Description": "The Aurora Address Endpoint to be used by WP."
+            "Description": "The Aurora Address Endpoint to be used by WP.",
             "Type": "String"
         },
         "DBMasterUserPassword": {
